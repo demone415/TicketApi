@@ -16,7 +16,7 @@ public class PostgresContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_LOCALHOST")!);
+        optionsBuilder.UseNpgsql(ConnectionStrings.Postgres.Value!);
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
