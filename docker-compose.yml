@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  TicketApi.Service:
+    build:
+      context: .
+      dockerfile: ./TicketApi.Service/Dockerfile
+    container_name: ticket-service
+    restart: unless-stopped
+    ports:
+      - target: 80
+        published: 11365
+        protocol: tcp
+        mode: ingress
+      - target: 443
+        published: 11366
+        protocol: tcp
+        mode: ingress
+    networks:
+      - 'tickets-network'
+    environment:
+      - 'CRED_REDIS=${CRED_REDIS}'
+      - 'POSTGRES_HOMEAPI=${POSTGRES_LOCALHOST}'
+      - 'PROVERKA_CHECKA_TOKEN=${PROVERKA_CHECKA_TOKEN}'
+  
+  TicketApi.Classifier:
+    build:
+      context: .
+      dockerfile: ./TicketApi.Classifier/Dockerfile
+    container_name: ticket-classifier
+    restart: unless-stopped
+    expose:
+      - '80'
+      - '443'
+    networks:
+      - 'tickets-network'
+
+networks:
+  'tickets-network':
+    external: false
+    name: ingress
