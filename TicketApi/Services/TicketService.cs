@@ -11,19 +11,20 @@ namespace TicketApi.Service.Services;
 
 public class TicketService : ITicketService
 {
-    private readonly ITicketRepository _ticketRepository;
     private readonly IClassifierService _classifierService;
     private readonly IProverkaCheckaService _proverkaCheckaService;
+    private readonly ITicketRepository _ticketRepository;
     private readonly CultureInfo _enUs = new("en-US");
 
-    public TicketService(ITicketRepository ticketRepository, IProverkaCheckaService proverkaCheckaService, IClassifierService classifierService)
+    public TicketService(ITicketRepository ticketRepository, IProverkaCheckaService proverkaCheckaService,
+        IClassifierService classifierService)
     {
         _ticketRepository = ticketRepository;
         _proverkaCheckaService = proverkaCheckaService;
         _classifierService = classifierService;
     }
 
-    public async Task<TicketDataResult> GetTicketData(string qrString)
+    public async Task<TicketDataResult> GetTicketDataAsync(string qrString, CancellationToken ct)
     {
         var qrData = GetQrData(qrString);
         if (qrData == null)
@@ -36,7 +37,7 @@ public class TicketService : ITicketService
         return result;
     }
 
-    public async Task<TicketDataResult> GetTicketData(TicketHeader header)
+    public async Task<TicketDataResult> GetTicketDataAsync(TicketHeader header, CancellationToken ct)
     {
         var qrData = GetQrData(header);
         var checkResult = await _proverkaCheckaService.GetTicketDataFromQrData(qrData);
@@ -44,27 +45,28 @@ public class TicketService : ITicketService
         return result;
     }
 
-    public async Task<TicketHeader> ClassifyTicket(TicketHeader header)
+    public async Task<TicketHeader> ClassifyTicketAsync(TicketHeader header, CancellationToken ct)
     {
-        return await _classifierService.ClassifyTicket(header);
+        return await _classifierService.ClassifyTicketAsync(header, ct);
     }
 
-    public async Task<AutoTicketResult> ProcessQrAuto(string qrstring)
+    public async Task<AutoTicketResult> ProcessQrAutoAsync(string qrString, CancellationToken ct)
     {
         var result = new AutoTicketResult();
-        var ticketResult = await GetTicketData(qrstring);
+        var ticketResult = await GetTicketDataAsync(qrString, ct);
         result.ResultCode = ticketResult.ResultCode;
         if (
-                ticketResult.ResultCode == ResultCodes.NoInformation 
-             || ticketResult.ResultCode == ResultCodes.DailyRequestNumberExceeded
-            )
+            ticketResult.ResultCode == ResultCodes.NoInformation
+            || ticketResult.ResultCode == ResultCodes.DailyRequestNumberExceeded
+        )
         {
-            result.SaveSuccessful = await _ticketRepository.SaveTicket(ticketResult.Header);
+            result.SaveSuccessful = await _ticketRepository.SaveTicketAsync(ticketResult.Header, ct);
         }
+
         if (ticketResult.ResultCode == ResultCodes.Success)
         {
-            var categorizedTicket = await ClassifyTicket(ticketResult.Header);
-            result.SaveSuccessful = await _ticketRepository.SaveTicket(ticketResult.Header);
+            var categorizedTicket = await ClassifyTicketAsync(ticketResult.Header, ct);
+            result.SaveSuccessful = await _ticketRepository.SaveTicketAsync(ticketResult.Header, ct);
         }
 
         return result;
@@ -93,11 +95,11 @@ public class TicketService : ITicketService
     private static DateTimeOffset GetNextFetchTime(short fetchTries)
     {
         /*
-            1-ый запрос - сейчас, условно время T.
+            1-ый запрос - сейчас, условно, время T
             2-ой запрос - T + 6 часов
             3-ий запрос - T + 1 день
             4-ый запрос - T + 3 дня
-            5-ый запрос - T + 10 дней.
+            5-ый запрос - T + 10 дней
          */
         switch (fetchTries)
         {
@@ -108,7 +110,6 @@ public class TicketService : ITicketService
             default: return DateTimeOffset.MaxValue.ToUniversalTime();
         }
     }
-
 
     private static TicketDataResult CreateTicketDataResult(QrData? qrData, CheckResult checkResult)
     {
@@ -128,7 +129,7 @@ public class TicketService : ITicketService
 
         return result;
     }
-    
+
     private static TicketHeader CreateHeaderFromCheck(Check check)
     {
         var lines = new List<TicketLine>(check.Json.Items.Count);
@@ -171,7 +172,7 @@ public class TicketService : ITicketService
         header.Lines = lines;
         return header;
     }
-    
+
     private static TicketHeader FillHeaderFromCheck(TicketHeader header, Check check)
     {
         var lines = new List<TicketLine>(check.Json.Items.Count);
@@ -203,10 +204,10 @@ public class TicketService : ITicketService
             ProductIdType = item.ProductCodeNew?.Gs1M.ProductIdType.ToString(),
         }));
         header.Lines = lines;
-        
+
         return header;
     }
-    
+
     private static TicketHeader CreateHeaderFromQrData(QrData? qrData)
     {
         return new TicketHeader
@@ -236,10 +237,10 @@ public class TicketService : ITicketService
             FiscalSign = header.FicsalSign,
             OperationType = header.OperationType,
         };
-        
+
         return model;
     }
-    
+
     private QrData? GetQrData(string qrRaw)
     {
         // t=20230226T1329&s=1162.26&fn=9960440301861117&i=54314&fp=2498462644&n=1
@@ -270,13 +271,13 @@ public class TicketService : ITicketService
         {
             return null;
         }
-        
+
         var isOpTypeParsed = short.TryParse(arr[5], _enUs, out var opType);
         if (!isOpTypeParsed)
         {
             return null;
         }
-        
+
         // t=20230226T1329&s=1162.26&fn=9960440301861117&i=54314&fp=2498462644&n=1
         var model = new QrData
         {
@@ -287,7 +288,6 @@ public class TicketService : ITicketService
             FiscalSign = arr[4],
             OperationType = (OperationType)opType,
         };
-
 
         return model;
     }

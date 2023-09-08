@@ -18,11 +18,11 @@ public class ClassifierService : IClassifierService, IDisposable
         _restClient = new RestClient(options, configureSerialization: s=> s.UseNewtonsoftJson());
     }
     
-    public async Task<TicketHeader> ClassifyTicket(TicketHeader header)
+    public async Task<TicketHeader> ClassifyTicketAsync(TicketHeader header, CancellationToken ct)
     {
         var req = new RestRequest(ClassifyUrl);
         req.AddParameter("header", header, ParameterType.RequestBody);
-        var response = await _restClient.ExecutePostAsync<TicketHeader>(req);
+        var response = await _restClient.ExecutePostAsync<TicketHeader>(req, ct);
         if (response.Data is null) throw new DataException("Cannot get categories from service");
         return response.Data;
     }

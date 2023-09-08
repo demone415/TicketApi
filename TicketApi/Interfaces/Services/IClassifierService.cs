@@ -4,5 +4,5 @@ namespace TicketApi.Interfaces.Services;
 
 public interface IClassifierService
 {
-    public Task<TicketHeader> ClassifyTicket(TicketHeader header);
+    public Task<TicketHeader> ClassifyTicketAsync(TicketHeader header, CancellationToken ct);
 }

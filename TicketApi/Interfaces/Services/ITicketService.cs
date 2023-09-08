@@ -5,10 +5,10 @@ namespace TicketApi.Interfaces.Services;
 
 public interface ITicketService
 {
-    public Task<TicketDataResult> GetTicketData(string qrdata);
-    public Task<TicketDataResult> GetTicketData(TicketHeader header);
+    public Task<TicketDataResult> GetTicketDataAsync(string qrdata, CancellationToken ct);
+    public Task<TicketDataResult> GetTicketDataAsync(TicketHeader header, CancellationToken ct);
 
-    public Task<TicketHeader> ClassifyTicket(TicketHeader lines);
+    public Task<TicketHeader> ClassifyTicketAsync(TicketHeader lines, CancellationToken ct);
 
-    public Task<AutoTicketResult> ProcessQrAuto(string qrdata);
+    public Task<AutoTicketResult> ProcessQrAutoAsync(string qrdata, CancellationToken ct);
 }

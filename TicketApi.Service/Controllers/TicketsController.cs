@@ -27,48 +27,52 @@ public class TicketsController : ControllerBase
     /// <summary>
     /// Получить список чеков по номеру страницы. На каждой странице 1000 чеков.
     /// </summary>
+    /// <param name="ct"></param>
     /// <param name="pageNum"></param>
     /// <returns></returns>
     [HttpGet("")]
-    public async Task<IActionResult> GetTickets(int pageNum = 0)
+    public async Task<IActionResult> GetTickets(CancellationToken ct, int pageNum = 0)
     {
-        return Ok(await _ticketRepository.GetTickets(pageNum));
+        return Ok(await _ticketRepository.GetTicketsAsync(pageNum, ct));
     }
     
     /// <summary>
     /// Получить детальную информацию о чеке по QR коду
     /// </summary>
     /// <param name="qr"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpGet("data")]
-    public async Task<IActionResult> GetTicketData(string qr)
+    public async Task<IActionResult> GetTicketData(string qr, CancellationToken ct)
     {
-        var ticketDataResult = await _ticketService.GetTicketData(qr);
+        var ticketDataResult = await _ticketService.GetTicketDataAsync(qr, ct);
         if (ticketDataResult.ResultCode == ResultCodes.CheckInvalid) 
             return BadRequest("Invalid QR code");
-        return Ok(await _ticketService.GetTicketData(qr));
+        return Ok(await _ticketService.GetTicketDataAsync(qr, ct));
     }
     
     /// <summary>
     /// Категоризировать позиции чека
     /// </summary>
     /// <param name="ticket"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpPost("data/classify")]
-    public async Task<IActionResult> ClassifyTicket(TicketHeader ticket)
+    public async Task<IActionResult> ClassifyTicket(TicketHeader ticket, CancellationToken ct)
     {
-        return Ok(await _ticketService.ClassifyTicket(ticket));
+        return Ok(await _ticketService.ClassifyTicketAsync(ticket, ct));
     }
     
     /// <summary>
     /// Сохранить данные чека в бд
     /// </summary>
     /// <param name="ticket"></param>
+    /// <param name="ct"></param>
     /// <returns></returns>
     [HttpPost("")]
-    public async Task<IActionResult> SaveTicket(TicketHeader ticket)
+    public async Task<IActionResult> SaveTicket(TicketHeader ticket, CancellationToken ct)
     {
-        return Ok(await _ticketRepository.SaveTicket(ticket));
+        return Ok(await _ticketRepository.SaveTicketAsync(ticket, ct));
     }
     
     /// <summary>
@@ -77,9 +81,9 @@ public class TicketsController : ControllerBase
     /// <param name="qr"></param>
     /// <returns></returns>
     [HttpGet("auto")]
-    public async Task<IActionResult> GetTicketDataAuto(string qr)
+    public async Task<IActionResult> GetTicketDataAuto(string qr, CancellationToken ct)
     {
-        return Ok(await _ticketService.ProcessQrAuto(qr));
+        return Ok(await _ticketService.ProcessQrAutoAsync(qr, ct));
     }
     
 }

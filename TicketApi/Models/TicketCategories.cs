@@ -1,9 +1,8 @@
 ﻿namespace TicketApi.Models;
 
-public class TicketCategories
+public class TopCategories
 {
-    public string Name { get; set; }
-    public string Category1 { get; set; }
-    public string Category2 { get; set; }
-    public string Category3 { get; set; }
+    public List<string> Categories1 { get; set; }
+    public List<string> Categories2 { get; set; }
+    public List<string> Categories3 { get; set; }
 }

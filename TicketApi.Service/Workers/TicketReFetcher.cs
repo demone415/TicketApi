@@ -20,12 +20,14 @@ public class TicketReFetcher : IJob
     
     public async Task Execute(IJobExecutionContext context)
     {
+        var ctx = new CancellationTokenSource(TimeSpan.FromMinutes(30));
+        var ct = ctx.Token;
         var headersInQueue = _postgresContext.Headers
             .Where(h => h.Status == HeaderStatuses.InQueue);
 
         foreach (var header in headersInQueue)
         {
-            var dataResult = await _ticketService.GetTicketData(header);
+            var dataResult = await _ticketService.GetTicketDataAsync(header, ct);
             if (dataResult.Header.NextFetchDateTime == DateTimeOffset.MaxValue.ToUniversalTime())
             {
                 header.Status = HeaderStatuses.RequestsExceeded;
