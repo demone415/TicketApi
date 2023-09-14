@@ -6,11 +6,11 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY . .
-RUN dotnet restore "TicketApi.Service/TicketApi.Service.csproj"
-RUN dotnet build "TicketApi.Service/TicketApi.Service.csproj" -c Release -o /app/build
+RUN dotnet restore "TicketApi.Service.csproj"
+RUN dotnet build "TicketApi.Service.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TicketApi.Service/TicketApi.Service.csproj" -c Release -o /app/publish
+RUN dotnet publish "TicketApi.Service.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
