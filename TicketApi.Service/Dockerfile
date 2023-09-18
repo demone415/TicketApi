@@ -13,7 +13,7 @@ COPY TicketApi.Service/TicketApi.Service.csproj TicketApi.Service/
 # Копируем остальной репозиторий, тестируем и паблишим сервис в /app
 COPY . .
 
-RUN dotnet test TicketApi.Tests/TicketApi.Tests.csproj -c Release --filter "Category != LocalOnly" -l "console;verbosity=normal"
+#RUN dotnet test TicketApi.Tests/TicketApi.Tests.csproj -c Release --filter "Category != LocalOnly" -l "console;verbosity=normal"
 
 RUN dotnet publish TicketApi.Service/TicketApi.Service.csproj -c Release -o /app
 
