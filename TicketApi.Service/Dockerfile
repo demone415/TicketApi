@@ -1,18 +1,29 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY . .
-RUN dotnet restore "TicketApi.Service.csproj"
-RUN dotnet build "TicketApi.Service.csproj" -c Release -o /app/build
 
-FROM build AS publish
-RUN dotnet publish "TicketApi.Service.csproj" -c Release -o /app/publish
+# Копируем csproj первыми, чтобы использовать кэш докера и не ресторить пакеты каждый раз когда поменялся код
+COPY TicketApi/TicketApi.csproj TicketApi/
+COPY TicketApi.Classifier/TicketApi.Classifier.csproj TicketApi.Classifier/
+COPY TicketApi.Service/TicketApi.Service.csproj TicketApi.Service/
+
+# Копируем остальной репозиторий, тестируем и паблишим сервис в /app
+COPY . .
+
+RUN dotnet test TicketApi.Tests/TicketApi.Tests.csproj -c Release --filter "Category != LocalOnly" -l "console;verbosity=normal"
+
+RUN dotnet publish TicketApi.Service/TicketApi.Service.csproj -c Release -o /app
 
 FROM base AS final
+
 WORKDIR /app
-COPY --from=publish /app/publish .
+
+# Копируем только собранный сервис из предыдущего образа
+COPY --from=build /app .
+
+# Точка входа при запуске контейнера
 ENTRYPOINT ["dotnet", "TicketApi.Service.dll"]
+
