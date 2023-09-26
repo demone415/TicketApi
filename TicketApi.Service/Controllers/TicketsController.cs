@@ -13,14 +13,20 @@ namespace TicketApi.Service.Controllers;
 [Route("[controller]")]
 public class TicketsController : ControllerBase
 {
+    private readonly IClassifierService _classifierService;
     private readonly ITicketRepository _ticketRepository;
     private readonly ITicketService _ticketService;
     private readonly ILogger<TicketsController> _logger;
     
-    public TicketsController(ITicketService ticketService, ITicketRepository ticketRepository, ILogger<TicketsController> logger)
+    public TicketsController(
+        ITicketService ticketService,
+        ITicketRepository ticketRepository,
+        IClassifierService classifierService,
+        ILogger<TicketsController> logger)
     {
-        _ticketService = ticketService;
+        _classifierService = classifierService;
         _ticketRepository = ticketRepository;
+        _ticketService = ticketService;
         _logger = logger;
     }
 
@@ -60,7 +66,7 @@ public class TicketsController : ControllerBase
     [HttpPost("data/classify")]
     public async Task<IActionResult> ClassifyTicket(TicketHeader ticket, CancellationToken ct)
     {
-        return Ok(await _ticketService.ClassifyTicketAsync(ticket, ct));
+        return Ok(await _classifierService.ClassifyTicketAsync(ticket, ct));
     }
     
     /// <summary>

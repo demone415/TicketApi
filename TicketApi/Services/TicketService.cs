@@ -45,11 +45,6 @@ public class TicketService : ITicketService
         return result;
     }
 
-    public async Task<TicketHeader> ClassifyTicketAsync(TicketHeader header, CancellationToken ct)
-    {
-        return await _classifierService.ClassifyTicketAsync(header, ct);
-    }
-
     public async Task<AutoTicketResult> ProcessQrAutoAsync(string qrString, CancellationToken ct)
     {
         var result = new AutoTicketResult();
@@ -65,7 +60,7 @@ public class TicketService : ITicketService
 
         if (ticketResult.ResultCode == ResultCodes.Success)
         {
-            var categorizedTicket = await ClassifyTicketAsync(ticketResult.Header, ct);
+            var categorizedTicket = await _classifierService.ClassifyTicketAsync(ticketResult.Header, ct);
             result.SaveSuccessful = await _ticketRepository.SaveTicketAsync(ticketResult.Header, ct);
         }
 
