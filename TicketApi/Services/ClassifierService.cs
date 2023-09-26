@@ -8,7 +8,7 @@ namespace TicketApi.Services;
 
 public class ClassifierService : IClassifierService, IDisposable
 {
-    private const string ClassierUrl = "http://classifier";
+    private const string ClassierUrl = "http://ticket-classifier.default.svc.cluster.local";
     private const string ClassifyUrl = "/classify";
     private readonly RestClient _restClient;
     
