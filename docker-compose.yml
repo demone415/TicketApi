@@ -7,6 +7,7 @@ services:
       dockerfile: ./TicketApi.Service/Dockerfile
     container_name: ticket-service
     restart: unless-stopped
+    image: ghcr.io/demone415/ticketapi
     ports:
       - target: 80
         published: 11365
@@ -29,6 +30,7 @@ services:
       dockerfile: ./TicketApi.Classifier/Dockerfile
     container_name: ticket-classifier
     restart: unless-stopped
+    image: ghcr.io/demone415/ticketclassifier
     expose:
       - '80'
       - '443'
