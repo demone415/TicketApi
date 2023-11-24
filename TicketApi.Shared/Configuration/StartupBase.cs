@@ -168,7 +168,7 @@ public abstract class StartupBase
             const string BasePath = "/ticket-api";
             c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
             {
-                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{BasePath}" } };
+                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"https://{httpReq.Host.Value}{BasePath}" } };
             });
             #endif
         });
