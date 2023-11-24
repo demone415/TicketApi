@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TicketApi.Interfaces.Services;
-using TicketApi.Services;
 
 namespace TicketApi.Service.Controllers;
+
+#if DEBUG
 
 [ApiController]
 [Produces("application/json")]
@@ -16,17 +17,29 @@ public class TestController : ControllerBase
         _redisService = redisService;
     }
 
-    [HttpGet("increaseRequestCount")]
-    public async Task<IActionResult> IncreaseRequestCountForDate(DateTime date)
+    [HttpGet("currentRequestCount")]
+    public async Task<IActionResult> GetCurrentRequestCount(DateTime? date)
     {
-        var newScore = await _redisService.IncreaseRequestCountAsync(date);
+        date ??= DateTime.Today;
+        var currentScore = await _redisService.GetCurrentRequestCountAsync(date.Value);
+        return Ok(currentScore);
+    }
+
+    [HttpGet("increaseRequestCount")]
+    public async Task<IActionResult> IncreaseRequestCountForDate(DateTime? date)
+    {
+        date ??= DateTime.Today;
+        var newScore = await _redisService.IncreaseRequestCountAsync(date.Value);
         return Ok(newScore);
     }
 
     [HttpGet("canMakeRequest")]
-    public async Task<IActionResult> CanMakeRequestInDate(DateTime date)
+    public async Task<IActionResult> CanMakeRequestForDate(DateTime? date)
     {
-        var can = await _redisService.CanMakeRequestAsync(date);
+        date ??= DateTime.Today;
+        var can = await _redisService.CanMakeRequestAsync(date.Value);
         return Ok(can);
     }
 }
+
+#endif

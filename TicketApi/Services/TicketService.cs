@@ -1,27 +1,31 @@
 ﻿using System.Globalization;
 using Newtonsoft.Json;
 using TicketApi.Entities;
+using TicketApi.Interfaces.Repositories;
 using TicketApi.Interfaces.Services;
 using TicketApi.Models;
 using TicketApi.Repositories;
+using TicketApi.Shared.SimplifySetting;
 
 // ReSharper disable All
 
 namespace TicketApi.Service.Services;
 
-public class TicketService : ITicketService
+public class TicketService : ITicketService, IScopeRegistration
 {
-    private readonly IClassifierService _classifierService;
+    private readonly ICategorizerServiceClient _categorizationServiceClient;
     private readonly IProverkaCheckaService _proverkaCheckaService;
     private readonly ITicketRepository _ticketRepository;
     private readonly CultureInfo _enUs = new("en-US");
 
-    public TicketService(ITicketRepository ticketRepository, IProverkaCheckaService proverkaCheckaService,
-        IClassifierService classifierService)
+    public TicketService(
+        ITicketRepository ticketRepository,
+        IProverkaCheckaService proverkaCheckaService,
+        ICategorizerServiceClient categorizationServiceClient)
     {
         _ticketRepository = ticketRepository;
         _proverkaCheckaService = proverkaCheckaService;
-        _classifierService = classifierService;
+        _categorizationServiceClient = categorizationServiceClient;
     }
 
     public async Task<TicketDataResult> GetTicketDataAsync(string qrString, CancellationToken ct)
@@ -32,7 +36,7 @@ public class TicketService : ITicketService
             return new TicketDataResult() { ResultCode = ResultCodes.CheckInvalid };
         }
 
-        var checkResult = await _proverkaCheckaService.GetTicketDataFromQrString(qrString);
+        var checkResult = await _proverkaCheckaService.GetTicketDataFromQrString(qrString, ct);
         var result = CreateTicketDataResult(qrData, checkResult);
         return result;
     }
@@ -40,7 +44,7 @@ public class TicketService : ITicketService
     public async Task<TicketDataResult> GetTicketDataAsync(TicketHeader header, CancellationToken ct)
     {
         var qrData = GetQrData(header);
-        var checkResult = await _proverkaCheckaService.GetTicketDataFromQrData(qrData);
+        var checkResult = await _proverkaCheckaService.GetTicketDataFromQrData(qrData, ct);
         var result = CreateTicketDataResult(header, checkResult);
         return result;
     }
@@ -60,11 +64,17 @@ public class TicketService : ITicketService
 
         if (ticketResult.ResultCode == ResultCodes.Success)
         {
-            var categorizedTicket = await _classifierService.ClassifyTicketAsync(ticketResult.Header, ct);
+            var categorizedTicket = await _categorizationServiceClient.CategorizeTicketAsync(ticketResult.Header, ct);
             result.SaveSuccessful = await _ticketRepository.SaveTicketAsync(ticketResult.Header, ct);
         }
 
         return result;
+    }
+
+    public async Task<TopCategories> GetTopCategoriesAsync(CancellationToken ct)
+    {
+        var categories = await _ticketRepository.GetTopCategoriesAsync(ct);
+        return categories;
     }
 
     private static TicketDataResult CreateTicketDataResult(TicketHeader header, CheckResult checkResult)
@@ -146,7 +156,7 @@ public class TicketService : ITicketService
             Manual = false,
             Status = HeaderStatuses.Success,
             FetchTries = 1,
-            NextFetchDateTime = DateTimeOffset.MinValue.ToUniversalTime(),
+            NextFetchDateTime = DateTimeOffset.MinValue.ToUniversalTime()
         };
         lines.AddRange(data.Items.Select(item => new TicketLine
         {
@@ -162,7 +172,7 @@ public class TicketService : ITicketService
             PaymentType = item.PaymentType,
             ProductType = item.ProductType,
             RawProductCode = item.ProductCodeNew?.Gs1M.RawProductCode,
-            ProductIdType = item.ProductCodeNew?.Gs1M.ProductIdType.ToString(),
+            ProductIdType = item.ProductCodeNew?.Gs1M.ProductIdType.ToString()
         }));
         header.Lines = lines;
         return header;
@@ -196,7 +206,7 @@ public class TicketService : ITicketService
             PaymentType = item.PaymentType,
             ProductType = item.ProductType,
             RawProductCode = item.ProductCodeNew?.Gs1M.RawProductCode,
-            ProductIdType = item.ProductCodeNew?.Gs1M.ProductIdType.ToString(),
+            ProductIdType = item.ProductCodeNew?.Gs1M.ProductIdType.ToString()
         }));
         header.Lines = lines;
 
@@ -217,7 +227,7 @@ public class TicketService : ITicketService
             NextFetchDateTime = DateTimeOffset.UtcNow.AddHours(6),
             Status = HeaderStatuses.InQueue,
             Manual = false,
-            FetchTries = 1,
+            FetchTries = 1
         };
     }
 
@@ -230,7 +240,7 @@ public class TicketService : ITicketService
             FiscalNumber = header.FsId,
             FiscalDocument = header.FicsalDoc,
             FiscalSign = header.FicsalSign,
-            OperationType = header.OperationType,
+            OperationType = header.OperationType
         };
 
         return model;
@@ -281,7 +291,7 @@ public class TicketService : ITicketService
             FiscalNumber = arr[2],
             FiscalDocument = arr[3],
             FiscalSign = arr[4],
-            OperationType = (OperationType)opType,
+            OperationType = (OperationType)opType
         };
 
         return model;

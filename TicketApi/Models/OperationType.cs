@@ -7,19 +7,19 @@ public enum OperationType
     /// Приход
     /// </summary>
     Income = 1,
-    
+
     /// <summary>
     /// Возврат прихода
     /// </summary>
     RetIncome = 2,
-    
+
     /// <summary>
     /// Расход
     /// </summary>
     Expense = 3,
-    
+
     /// <summary>
     /// Возврат расхода
     /// </summary>
-    RetExpense = 4,
+    RetExpense = 4
 }

@@ -1,10 +1,11 @@
 ﻿using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using TicketApi.Interfaces.Services;
+using TicketApi.Shared.SimplifySetting;
 
 namespace TicketApi.Services;
 
-public class RedisService : IRedisService
+public class RedisService : IRedisService, IScopeRegistration
 {
     private readonly IRedisDatabase _redisDb;
 
@@ -12,8 +13,8 @@ public class RedisService : IRedisService
     private const string DateFormat = "yyyy-MM-dd";
     private const int MaxRequestsPerDay = 15;
 
-    private readonly RedisKey _proverkaKey = new (ProverkaKeyName);
-    
+    private readonly RedisKey _proverkaKey = new(ProverkaKeyName);
+
     public RedisService(IRedisDatabase redisDb)
     {
         _redisDb = redisDb;
@@ -41,5 +42,12 @@ public class RedisService : IRedisService
         if (!score.HasValue) return true;
         score.TryParse(out int val);
         return val < MaxRequestsPerDay;
+    }
+
+    public async Task<string> GetCurrentRequestCountAsync(DateTime dt)
+    {
+        var key = new RedisKey(dt.ToString(DateFormat));
+        var score = await _redisDb.Database.StringGetAsync(key);
+        return score.ToString();
     }
 }

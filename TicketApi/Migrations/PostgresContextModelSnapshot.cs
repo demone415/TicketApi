@@ -10,7 +10,7 @@ using TicketApi.Entities;
 
 namespace TicketApi.Migrations
 {
-    [DbContext(typeof(PostgresContext))]
+    [DbContext(typeof(MainContext))]
     partial class PostgresContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -30,6 +30,10 @@ namespace TicketApi.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("BuyerPhoneOrAddress")
+                        .HasColumnType("text")
+                        .HasColumnName("buyer");
 
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("timestamp with time zone")
@@ -58,6 +62,10 @@ namespace TicketApi.Migrations
                     b.Property<DateTimeOffset>("NextFetchDateTime")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("nextfetch");
+
+                    b.Property<int>("OperationType")
+                        .HasColumnType("integer")
+                        .HasColumnName("operationtype");
 
                     b.Property<string>("Operator")
                         .HasColumnType("text")
@@ -91,10 +99,6 @@ namespace TicketApi.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("tsmp");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("text")
-                        .HasColumnName("username");
-
                     b.HasKey("Id");
 
                     b.ToTable("ticketheaders");
@@ -125,9 +129,9 @@ namespace TicketApi.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("cost");
 
-                    b.Property<bool>("Essential")
+                    b.Property<bool>("IsEssential")
                         .HasColumnType("boolean")
-                        .HasColumnName("essential");
+                        .HasColumnName("isessential");
 
                     b.Property<string>("Name")
                         .HasColumnType("text")

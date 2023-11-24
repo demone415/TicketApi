@@ -14,8 +14,10 @@ public sealed class CheckResult
     [JsonProperty("data")]
     public JToken Data { get; set; }
 
-    public CheckResult(){ }
-    
+    public CheckResult()
+    {
+    }
+
     public CheckResult(ResultCodes code)
     {
         Code = code;

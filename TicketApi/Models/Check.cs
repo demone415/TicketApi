@@ -15,7 +15,7 @@ public sealed class Json
 {
     [JsonProperty("buyerPhoneOrAddress")]
     public string BuyerPhoneOrAddress { get; set; }
-    
+
     [JsonProperty("messageFiscalSign")]
     public double MessageFiscalSign { get; set; }
 

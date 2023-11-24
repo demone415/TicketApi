@@ -1,7 +1,7 @@
 ﻿using TicketApi.Entities;
 using TicketApi.Models;
 
-namespace TicketApi.Repositories;
+namespace TicketApi.Interfaces.Repositories;
 
 public interface ITicketRepository
 {

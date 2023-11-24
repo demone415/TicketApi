@@ -8,5 +8,5 @@ public enum ResultCodes : short
     RequestNumberExceeded = 3,
     DailyRequestNumberExceeded = 253,
     SaveUnsuccessful = 254,
-    SomethingWentWrong = 255,
+    SomethingWentWrong = 255
 }
