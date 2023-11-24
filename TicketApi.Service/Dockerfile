@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 # Копируем csproj первыми, чтобы использовать кэш докера и не ресторить пакеты каждый раз когда поменялся код
 COPY TicketApi/TicketApi.csproj TicketApi/
-COPY TicketApi.Classifier/TicketApi.Classifier.csproj TicketApi.Classifier/
+COPY TicketApi.Categorizer/TicketApi.Categorizer.csproj TicketApi.Categorizer/
 COPY TicketApi.Service/TicketApi.Service.csproj TicketApi.Service/
 
 # Копируем остальной репозиторий, тестируем и паблишим сервис в /app
