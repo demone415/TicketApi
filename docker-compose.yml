@@ -24,13 +24,13 @@ services:
       - 'POSTGRES_HOMEAPI=${POSTGRES_LOCALHOST}'
       - 'PROVERKA_CHECKA_TOKEN=${PROVERKA_CHECKA_TOKEN}'
   
-  TicketApi.Classifier:
+  TicketApi.Categorizer:
     build:
       context: .
-      dockerfile: ./TicketApi.Classifier/Dockerfile
-    container_name: ticket-classifier
+      dockerfile: ./TicketApi.Categorizer/Dockerfile
+    container_name: ticket-categorizer
     restart: unless-stopped
-    image: ghcr.io/demone415/ticketclassifier
+    image: ghcr.io/demone415/ticketcategorizer
     expose:
       - '80'
       - '443'
