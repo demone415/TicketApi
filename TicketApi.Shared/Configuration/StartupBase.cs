@@ -162,7 +162,16 @@ public abstract class StartupBase
                 await context.Response.WriteAsync("pong");
             })).WithDisplayName("Ping");
         });
-        app.UseSwagger();
+        app.UseSwagger(c =>
+        {
+            #if !DEBUG
+            const string BasePath = "/ticket-api";
+            c.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+            {
+                swaggerDoc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = $"{httpReq.Scheme}://{httpReq.Host.Value}{BasePath}" } };
+            });
+            #endif
+        });
         app.UseSwaggerUI(c =>
         {
             foreach (var versionDescription in provider.ApiVersionDescriptions)

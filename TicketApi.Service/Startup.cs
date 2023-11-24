@@ -55,10 +55,6 @@ public sealed class Startup : StartupBase
         services.AddOptions();
         services.AddControllers();
 
-        // services.AddScoped(_ => Configuration
-        //     .GetSection("ContextOptions")
-        //     .Get<ContextOptions>());
-
         #region refit
 
         services.AddProverkaCheckaServiceClient(new Uri(Configuration.GetSection("ProverkaChecka")["Host"]!));
