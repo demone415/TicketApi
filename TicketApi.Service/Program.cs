@@ -141,7 +141,7 @@ internal static class ServiceCollectionExtensions
                 options.Authority = section["Authority"]!;
                 options.Audience = section["Audience"]!;
                 options.TokenValidationParameters.ValidIssuer = section["Authority"]!;
-                options.TokenValidationParameters.ValidateAudience = true;
+                options.TokenValidationParameters.ValidateAudience = false;
                 options.TokenValidationParameters.ValidateIssuer = true;
                 options.TokenValidationParameters.IssuerSigningKey = GetSigningKey(section);
                 
