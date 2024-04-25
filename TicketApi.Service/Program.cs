@@ -140,9 +140,9 @@ internal static class ServiceCollectionExtensions
                 var section = configuration.GetSection("Jwt");
                 options.Authority = section["Authority"]!;
                 options.Audience = section["Audience"]!;
-                options.TokenValidationParameters.ValidateAudience = false;
-                options.TokenValidationParameters.ValidateIssuer = true;
                 options.TokenValidationParameters.ValidIssuer = section["Authority"]!;
+                options.TokenValidationParameters.ValidateAudience = true;
+                options.TokenValidationParameters.ValidateIssuer = true;
                 options.TokenValidationParameters.IssuerSigningKey = GetSigningKey(section);
                 
                 //options.TokenValidationParameters.RoleClaimType = "role";
