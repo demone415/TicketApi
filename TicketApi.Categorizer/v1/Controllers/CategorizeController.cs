@@ -2,11 +2,11 @@
 using TicketApi.Entities;
 using TicketApi.Interfaces.Services;
 
-namespace TicketApi.Categorizer.Controllers;
+namespace TicketApi.Categorizer.v1.Controllers;
 
 [ApiController]
 [Produces("application/json")]
-[Route("[controller]")]
+[Route("v1/categorize")]
 public class CategorizeController : ControllerBase
 {
     private readonly ICategorizationService _categorizationService;

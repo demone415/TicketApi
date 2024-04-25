@@ -15,7 +15,7 @@ public abstract class ContextBase<T> : DbContext where T : DbContext
     {
         _options = options;
         var connectionString = configuration
-            .GetConnectionString("MainContext");
+            .GetConnectionString(nameof(T));
         _connectionString = connectionString;
     }
 
@@ -36,7 +36,7 @@ public abstract class ContextBase<T> : DbContext where T : DbContext
     public void RegistrationContext(IServiceCollection collection, IConfiguration configuration)
     {
         var connectionString = configuration
-            .GetConnectionString("MainContext");
+            .GetConnectionString(typeof(T).Name);
         _connectionString = connectionString;
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
         dataSourceBuilder.UseJsonNet();

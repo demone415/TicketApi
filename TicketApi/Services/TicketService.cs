@@ -16,13 +16,16 @@ public class TicketService : ITicketService, IScopeRegistration
     private readonly ICategorizerServiceClient _categorizationServiceClient;
     private readonly IProverkaCheckaService _proverkaCheckaService;
     private readonly ITicketRepository _ticketRepository;
+    private readonly IRedisService _redisService;
     private readonly CultureInfo _enUs = new("en-US");
 
     public TicketService(
+        IRedisService redisService,
         ITicketRepository ticketRepository,
         IProverkaCheckaService proverkaCheckaService,
         ICategorizerServiceClient categorizationServiceClient)
     {
+        _redisService = redisService;
         _ticketRepository = ticketRepository;
         _proverkaCheckaService = proverkaCheckaService;
         _categorizationServiceClient = categorizationServiceClient;
@@ -36,6 +39,12 @@ public class TicketService : ITicketService, IScopeRegistration
             return new TicketDataResult() { ResultCode = ResultCodes.CheckInvalid };
         }
 
+        var cachedTicket = await _redisService.GetTicketAsync(qrData.Value);
+        if (cachedTicket != null)
+        {
+            return CreateTicketDataResult(cachedTicket);
+        }
+        
         var checkResult = await _proverkaCheckaService.GetTicketDataFromQrString(qrString, ct);
         var result = CreateTicketDataResult(qrData, checkResult);
         return result;
@@ -71,10 +80,19 @@ public class TicketService : ITicketService, IScopeRegistration
         return result;
     }
 
-    public async Task<TopCategories> GetTopCategoriesAsync(CancellationToken ct)
+    public Task<TopCategories> GetTopCategoriesAsync(CancellationToken ct)
     {
-        var categories = await _ticketRepository.GetTopCategoriesAsync(ct);
-        return categories;
+        return _ticketRepository.GetTopCategoriesAsync(ct);
+    }
+
+    public IAsyncEnumerable<TicketHeader> GetTicketsAsync(int pageNum)
+    {
+        return _ticketRepository.GetTicketsAsync(pageNum);
+    }
+
+    public Task<bool> SaveTicketAsync(TicketHeader ticket, CancellationToken ct)
+    {
+        return _ticketRepository.SaveTicketAsync(ticket, ct);
     }
 
     private static TicketDataResult CreateTicketDataResult(TicketHeader header, CheckResult checkResult)
@@ -132,6 +150,17 @@ public class TicketService : ITicketService, IScopeRegistration
                 break;
         }
 
+        return result;
+    }
+
+    private static TicketDataResult CreateTicketDataResult(TicketHeader header)
+    {
+        var result = new TicketDataResult();
+        result.ResultCode = header.NextFetchDateTime == DateTimeOffset.MinValue
+            ? ResultCodes.Success
+            : ResultCodes.RequestNumberExceeded;
+        result.Header = header;
+        
         return result;
     }
 

@@ -12,4 +12,8 @@ public interface ITicketService
     public Task<AutoTicketResult> ProcessQrAutoAsync(string qrdata, CancellationToken ct);
 
     public Task<TopCategories> GetTopCategoriesAsync(CancellationToken ct);
+    
+    public IAsyncEnumerable<TicketHeader> GetTicketsAsync(int pageNum);
+    
+    public Task<bool> SaveTicketAsync(TicketHeader ticket, CancellationToken ct);
 }

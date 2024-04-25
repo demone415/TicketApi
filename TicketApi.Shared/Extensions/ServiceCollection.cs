@@ -11,14 +11,14 @@ public static class ServiceCollection
     /// Установка Json настроек
     /// </summary>
     /// <param name="services"></param>
-    public static void SetupNewtonSoft(this IServiceCollection services)
+    public static void SetupNewtonsoft(this IServiceCollection services)
     {
         services.AddMvc().AddNewtonsoftJson(options =>
         {
             options.SerializerSettings.Culture = System.Globalization.CultureInfo.GetCultureInfo("ru-RU");
             options.SerializerSettings.ContractResolver = new DefaultContractResolver();
             options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            options.SerializerSettings.Converters.Add(new StringEnumConverter(true));
+            options.SerializerSettings.Converters.Add(new StringEnumConverter(new DefaultNamingStrategy()));
             options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             options.SerializerSettings.DateFormatHandling = DateFormatHandling.IsoDateFormat;
         });

@@ -1,6 +1,9 @@
-﻿using StackExchange.Redis;
+﻿using JetBrains.Annotations;
+using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;
+using TicketApi.Entities;
 using TicketApi.Interfaces.Services;
+using TicketApi.Models;
 using TicketApi.Shared.SimplifySetting;
 
 namespace TicketApi.Services;
@@ -49,5 +52,17 @@ public class RedisService : IRedisService, IScopeRegistration
         var key = new RedisKey(dt.ToString(DateFormat));
         var score = await _redisDb.Database.StringGetAsync(key);
         return score.ToString();
+    }
+
+    public async Task SaveTicketAsync(TicketHeader header)
+    {
+        var key = new QrData(header).ToString();
+        await _redisDb.AddAsync(key, header, DateTimeOffset.Now.AddDays(7), When.NotExists);
+    }
+
+    public async Task<TicketHeader> GetTicketAsync(QrData data)
+    {
+        var key = data.ToString();
+        return await _redisDb.GetAsync<TicketHeader>(key);
     }
 }

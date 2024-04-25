@@ -5,7 +5,7 @@ namespace TicketApi.Interfaces.Repositories;
 
 public interface ITicketRepository
 {
-    public Task<List<TicketHeader>> GetTicketsAsync(int pageNum, CancellationToken ct);
+    public IAsyncEnumerable<TicketHeader> GetTicketsAsync(int pageNum);
 
     public Task<bool> SaveTicketAsync(TicketHeader ticket, CancellationToken ct);
 

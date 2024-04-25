@@ -1,20 +1,18 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicketApi.Entities;
+using TicketApi.Extensions;
 using TicketApi.Interfaces.Repositories;
 using TicketApi.Interfaces.Services;
 using TicketApi.Models;
-using TicketApi.Repositories;
-using TicketApi.Services;
 
-namespace TicketApi.Service.Controllers;
+namespace TicketApi.Service.v1.Controllers;
 
+[Authorize]
 [ApiController]
-//[ApiVersion("1")]
+[ApiVersion("1.0")]
+[Route("v1/tickets")]
 [Produces("application/json")]
-//[Route("v{version:apiVersion}/[controller]")]
-[Route("[controller]")]
 public class TicketsController : ControllerBase
 {
     private readonly ICategorizerServiceClient _categorizerServiceClient;
@@ -42,12 +40,12 @@ public class TicketsController : ControllerBase
     /// <returns>Набор чеков</returns>
     [HttpGet("")]
     [ProducesResponseType(statusCode: 200, type: typeof(IList<TicketHeader>))]
-    [ProducesResponseType(204)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(statusCode: 204)]
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 500)]
     public async Task<ActionResult<IList<TicketHeader>>> GetTickets(CancellationToken ct, int pageNum = 0)
     {
-        var tickets = await _ticketRepository.GetTicketsAsync(pageNum, ct);
+        var tickets = await _ticketService.GetTicketsAsync(pageNum).ToListAsync(ct);
         if (tickets == null || tickets.Count == 0)
             return NoContent();
         return Ok(tickets);
@@ -61,8 +59,8 @@ public class TicketsController : ControllerBase
     /// <returns></returns>
     [HttpGet("data")]
     [ProducesResponseType(statusCode: 200, type: typeof(TicketDataResult))]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 500)]
     public async Task<ActionResult<TicketDataResult>> GetTicketData(string qr, CancellationToken ct)
     {
         var ticketDataResult = await _ticketService.GetTicketDataAsync(qr, ct);
@@ -80,9 +78,9 @@ public class TicketsController : ControllerBase
     /// <returns></returns>
     [HttpPost("data/categorize")]
     [ProducesResponseType(statusCode: 200, type: typeof(TicketHeader))]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
-    public async Task<ActionResult<TicketHeader>> ClassifyTicket(TicketHeader ticket, CancellationToken ct)
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 500)]
+    public async Task<ActionResult<TicketHeader>> CategorizeTicket(TicketHeader ticket, CancellationToken ct)
     {
         var classifiedTicket = await _categorizerServiceClient.CategorizeTicketAsync(ticket, ct);
         return Ok(classifiedTicket);
@@ -95,12 +93,12 @@ public class TicketsController : ControllerBase
     /// <param name="ct">Токен отмены</param>
     /// <returns></returns>
     [HttpPost("")]
-    [ProducesResponseType(201)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(statusCode: 201)]
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 500)]
     public async Task<ActionResult<bool>> SaveTicket(TicketHeader ticket, CancellationToken ct)
     {
-        var saveResult = await _ticketRepository.SaveTicketAsync(ticket, ct);
+        var saveResult = await _ticketService.SaveTicketAsync(ticket, ct);
         return new StatusCodeResult(201);
     }
 
@@ -112,8 +110,8 @@ public class TicketsController : ControllerBase
     /// <returns></returns>
     [HttpGet("auto")]
     [ProducesResponseType(statusCode: 200, type: typeof(AutoTicketResult))]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 500)]
     public async Task<ActionResult<AutoTicketResult>> GetTicketDataAuto(string qr, CancellationToken ct)
     {
         var autoResult = await _ticketService.ProcessQrAutoAsync(qr, ct);
@@ -128,8 +126,8 @@ public class TicketsController : ControllerBase
     /// <returns></returns>
     [HttpGet("top-categories")]
     [ProducesResponseType(statusCode: 200, type: typeof(TopCategories))]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(statusCode: 400)]
+    [ProducesResponseType(statusCode: 500)]
     public async Task<ActionResult<TopCategories>> GetTopCategories(CancellationToken ct)
     {
         var categories = await _ticketService.GetTopCategoriesAsync(ct);

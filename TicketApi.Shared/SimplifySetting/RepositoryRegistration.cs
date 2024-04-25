@@ -13,7 +13,7 @@ public static class RepositoryRegistration
     /// </summary>
     /// <param name="cpServiceCollection"></param>
     /// <param name="configuration"></param>
-    public static void RegisterAllRepository(this IServiceCollection cpServiceCollection,
+    public static void AddRepositories(this IServiceCollection cpServiceCollection,
         IConfiguration configuration)
     {
         var assemblies = AppDomain.CurrentDomain.GetAssemblies();

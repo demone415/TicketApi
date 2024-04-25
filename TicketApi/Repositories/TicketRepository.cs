@@ -18,17 +18,15 @@ public class TicketRepository : RepositoryBase<TicketHeader>, ITicketRepository,
         _mainContext = mainContext;
     }
 
-    public async Task<List<TicketHeader>> GetTicketsAsync(int pageNum, CancellationToken ct)
+    public IAsyncEnumerable<TicketHeader> GetTicketsAsync(int pageNum)
     {
-        return await CompiledQueries.GetTicketsAsync(_mainContext, pageNum, PageSize).ToListAsync(ct);
+        return CompiledQueries.GetTicketsAsync(_mainContext, pageNum, PageSize);
     }
 
     public async Task<bool> SaveTicketAsync(TicketHeader header, CancellationToken ct)
     {
         await AddAsync(header, ct);
         await SaveAsync(ct);
-        //await _mainContext.Headers.AddRangeAsync(header);
-        //await _mainContext.SaveChangesAsync(ct);
         return true;
     }
 

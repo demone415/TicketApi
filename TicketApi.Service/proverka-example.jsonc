@@ -1,0 +1,170 @@
+﻿//t=20230124T1906&s=1250.60&fn=9960440301562590&i=87712&fp=3982365418&n=1
+{
+  "code": 1,
+  "first": 1,
+  "data": {
+    "json": {
+      "messageFiscalSign": 9.297226471996764e+18,
+      "code": 3,
+      "fiscalDocumentFormatVer": 4,
+      "fiscalDriveNumber": "9960440301562590",
+      "kktRegId": "0006394681008316    ",
+      "userInn": "5258056945  ",
+      "fiscalDocumentNumber": 87712,
+      "dateTime": "2023-01-24T19:06:00",
+      "fiscalSign": 3982365418,
+      "shiftNumber": 262,
+      "requestNumber": 227,
+      "operationType": 1,
+      "totalSum": 125060,
+      "items": [
+        {
+          "name": "4607009691701 СЫРОК ТВОРОЖНЫЙ SPAR",
+          "price": 4990,
+          "quantity": 1,
+          "itemsQuantityMeasure": 0,
+          "sum": 4990,
+          "nds": 2,
+          "ndsSum": 454,
+          "paymentType": 4,
+          "productType": 1,
+          "productCodeNew": {
+            "gs1m": {
+              "rawProductCode": "0104607009691701215=_BM1",
+              "productIdType": 6,
+              "gtin": "04607009691701",
+              "sernum": "5=_BM1"
+            }
+          },
+          "labelCodeProcesMode": 0,
+          "checkingProdInformationResult": 15
+        },
+        {
+          "name": "4602384231627 КОЛБАСА СЫРОКОПЧЕНАЯ",
+          "price": 12990,
+          "quantity": 1,
+          "itemsQuantityMeasure": 0,
+          "sum": 12990,
+          "nds": 2,
+          "ndsSum": 1181,
+          "paymentType": 4,
+          "productType": 1
+        },
+        {
+          "name": "4690228107054 ЙОГУРТ ПИТЬЕВОЙ ЧУДО",
+          "price": 15990,
+          "quantity": 1,
+          "itemsQuantityMeasure": 0,
+          "sum": 15990,
+          "nds": 2,
+          "ndsSum": 1454,
+          "paymentType": 4,
+          "productType": 1,
+          "productCodeNew": {
+            "gs1m": {
+              "rawProductCode": "0104690228107054215ahHKS",
+              "productIdType": 6,
+              "gtin": "04690228107054",
+              "sernum": "5ahHKS"
+            }
+          },
+          "labelCodeProcesMode": 0,
+          "checkingProdInformationResult": 15
+        },
+        {
+          "name": "4600605032138 БИОЙОГУРТ АКТИВИА КЛ",
+          "price": 14990,
+          "quantity": 1,
+          "itemsQuantityMeasure": 0,
+          "sum": 14990,
+          "nds": 2,
+          "ndsSum": 1363,
+          "paymentType": 4,
+          "productType": 1,
+          "productCodeNew": {
+            "gs1m": {
+              "rawProductCode": "010460060503213821508sqs",
+              "productIdType": 6,
+              "gtin": "04600605032138",
+              "sernum": "508sqs"
+            }
+          },
+          "labelCodeProcesMode": 0,
+          "checkingProdInformationResult": 15
+        },
+        {
+          "name": "4602384234390 КОТЛЕТЫ СЛИВОЧНЫЕ 44",
+          "price": 17990,
+          "quantity": 1,
+          "itemsQuantityMeasure": 0,
+          "sum": 17990,
+          "nds": 2,
+          "ndsSum": 1635,
+          "paymentType": 4,
+          "productType": 1
+        },
+        {
+          "name": "2386774000001 КУПАТЫ КУРИНЫЕ",
+          "price": 37989,
+          "quantity": 1.293,
+          "itemsQuantityMeasure": 0,
+          "sum": 49120,
+          "nds": 2,
+          "ndsSum": 4465,
+          "paymentType": 4,
+          "productType": 1
+        },
+        {
+          "name": "8714100706046 ПРИПРАВА KNORR НА ВТ",
+          "price": 8990,
+          "quantity": 1,
+          "itemsQuantityMeasure": 0,
+          "sum": 8990,
+          "nds": 1,
+          "ndsSum": 1498,
+          "paymentType": 4,
+          "productType": 1
+        }
+      ],
+      "buyerPhoneOrAddress": "demone415@gmail.com",
+      "operator": "Самообслуживание 1  ",
+      "cashTotalSum": 0,
+      "ecashTotalSum": 125060,
+      "prepaidSum": 0,
+      "creditSum": 0,
+      "provisionSum": 0,
+      "fnsUrl": "www.nalog.gov.ru",
+      "retailPlace": "Магазин EuroSpar",
+      "nds18": 1498,
+      "nds10": 10552,
+      "user": "ООО \"Спар Миддл Волга\"",
+      "retailPlaceAddress": "125581, г. Москва, ул.Фестивальная, д.8, стр.1",
+      "appliedTaxationType": 1,
+      "checkingLabeledProdResult": 0,
+      "region": "77",
+      "numberKkt": "0104580012170980",
+      "redefine_mask": 0,
+      "metadata": {
+        "id": 4606627371940627712,
+        "ofdId": "ofd5",
+        "receiveDate": "2023-01-24T16:06:27Z",
+        "subtype": "receipt",
+        "address": "125581,Россия,Г.Москва,муниципальный округ Ховрино вн.тер.г.,,,,Фестивальная ул,,д. 8,стр. 1,,,"
+      }
+    },
+    "html": "<table class=\"b-check_table table\"><tbody><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">ООО \"Спар Миддл Волга\"</td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">125581, г. Москва, ул.Фестивальная, д.8, стр.1</td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">ИНН 5258056945  </td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">&nbsp;</td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">24.01.2023 19:06</td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">Чек № 227</td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">Смена № 262</td></tr><tr class=\"b-check_vblock-middle b-check_center\"><td colspan=\"5\">Кассир Самообслуживание 1  </td></tr><tr class=\"b-check_vblock-last b-check_center\"><td colspan=\"5\">Приход</td></tr><tr><td><strong>№</strong></td><td><strong>Название</strong></td><td><strong>Цена</strong></td><td><strong>Кол.</strong></td><td><strong>Сумма</strong></td></tr><tr class=\"b-check_item\"><td>1</td><td>4607009691701 СЫРОК ТВОРОЖНЫЙ SPAR</td><td>49.90</td><td>1</td><td>49.90</td></tr><tr class=\"b-check_item\"><td>2</td><td>4602384231627 КОЛБАСА СЫРОКОПЧЕНАЯ</td><td>129.90</td><td>1</td><td>129.90</td></tr><tr class=\"b-check_item\"><td>3</td><td>4690228107054 ЙОГУРТ ПИТЬЕВОЙ ЧУДО</td><td>159.90</td><td>1</td><td>159.90</td></tr><tr class=\"b-check_item\"><td>4</td><td>4600605032138 БИОЙОГУРТ АКТИВИА КЛ</td><td>149.90</td><td>1</td><td>149.90</td></tr><tr class=\"b-check_item\"><td>5</td><td>4602384234390 КОТЛЕТЫ СЛИВОЧНЫЕ 44</td><td>179.90</td><td>1</td><td>179.90</td></tr><tr class=\"b-check_item\"><td>6</td><td>2386774000001 КУПАТЫ КУРИНЫЕ</td><td>379.89</td><td>1.293</td><td>491.20</td></tr><tr class=\"b-check_item\"><td>7</td><td>8714100706046 ПРИПРАВА KNORR НА ВТ</td><td>89.90</td><td>1</td><td>89.90</td></tr><tr class=\"b-check_vblock-first\"><td colspan=\"3\" class=\"b-check_itogo\">ИТОГО:</td><td></td><td class=\"b-check_itogo\">1250.60</td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"3\">Наличные</td><td></td><td>0.00</td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"3\">Карта</td><td></td><td>1250.60</td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"3\">НДС итога чека со ставкой 20%</td><td></td><td>14.98</td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"3\">НДС итога чека со ставкой 10%</td><td></td><td>105.52</td></tr><tr class=\"b-check_vblock-last\"><td colspan=\"5\">ВИД НАЛОГООБЛОЖЕНИЯ: ОСН</td></tr><tr class=\"b-check_vblock-first\"><td colspan=\"5\">РЕГ.НОМЕР ККТ: 0006394681008316    </td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"5\">ЗАВОД. №: </td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"5\">ФН: 9960440301562590</td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"5\">ФД: 87712</td></tr><tr class=\"b-check_vblock-middle\"><td colspan=\"5\">ФПД#: 3982365418</td></tr><tr class=\"b-check_vblock-last\"><td colspan=\"5\" class=\"b-check_center\"><img src=\"/qrcode/generate?text=t%3D20230124T1906%26s%3D1250.60%26fn%3D9960440301562590%26i%3D87712%26fp%3D3982365418%26n%3D1\" alt=\"QR код чека\" width=\"35%\" loading=\"lazy\" decoding=\"async\"></td></tr></tbody></table>"
+  },
+  "request": {
+    "qrurl": "",
+    "qrfile": "",
+    "qrraw": "t=20230124t1906&s=1250.60&fn=9960440301562590&i=87712&fp=3982365418&n=1",
+    "manual": {
+      "fn": "9960440301562590",
+      "fd": "87712",
+      "fp": "3982365418",
+      "check_time": "20230124t1906",
+      "type": "1",
+      "sum": "1250.6"
+    }
+  }
+}

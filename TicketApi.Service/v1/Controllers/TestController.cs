@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TicketApi.Entities;
 using TicketApi.Interfaces.Services;
+using TicketApi.Models;
 
-namespace TicketApi.Service.Controllers;
+namespace TicketApi.Service.v1.Controllers;
 
 #if DEBUG
 
 [ApiController]
+[ApiVersion("1.0")]
 [Produces("application/json")]
-[Route("[controller]")]
+[Route("v1/test")]
 public class TestController : ControllerBase
 {
     private readonly IRedisService _redisService;
@@ -39,6 +42,20 @@ public class TestController : ControllerBase
         date ??= DateTime.Today;
         var can = await _redisService.CanMakeRequestAsync(date.Value);
         return Ok(can);
+    }
+
+    [HttpPost("saveTicketToCache")]
+    public async Task<IActionResult> SaveTicketToCache([FromBody] TicketHeader header)
+    {
+        await _redisService.SaveTicketAsync(header);
+        return Ok();
+    }
+
+    [HttpGet("getTicketFromCache")]
+    public async Task<IActionResult> GetTicketFromCache(QrData data)
+    {
+        var header = await _redisService.GetTicketAsync(data);
+        return Ok(header);
     }
 }
 

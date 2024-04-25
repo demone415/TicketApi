@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketApi.Service", "TicketApi.Service\TicketApi.Service.csproj", "{D56404DE-1931-4E8F-851A-AC886C8AF45E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketApi.Tests", "TicketApi.Tests\TicketApi.Tests.csproj", "{FC0BDAF1-566C-4872-99E7-79F1FCFF1AF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketApi.Categorizer", "TicketApi.Categorizer\TicketApi.Categorizer.csproj", "{25AD4413-2712-4AFA-AEF6-762005C41E16}"
@@ -17,16 +15,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketApi.Shared", "TicketApi.Shared\TicketApi.Shared.csproj", "{85EC6957-9663-4D95-954F-DAC57405FC1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketApi.Service", "TicketApi.Service\TicketApi.Service.csproj", "{96F58DBF-BF8F-446B-983D-357472789BE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D56404DE-1931-4E8F-851A-AC886C8AF45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D56404DE-1931-4E8F-851A-AC886C8AF45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D56404DE-1931-4E8F-851A-AC886C8AF45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D56404DE-1931-4E8F-851A-AC886C8AF45E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FC0BDAF1-566C-4872-99E7-79F1FCFF1AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FC0BDAF1-566C-4872-99E7-79F1FCFF1AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC0BDAF1-566C-4872-99E7-79F1FCFF1AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,5 +39,9 @@ Global
 		{85EC6957-9663-4D95-954F-DAC57405FC1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85EC6957-9663-4D95-954F-DAC57405FC1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85EC6957-9663-4D95-954F-DAC57405FC1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96F58DBF-BF8F-446B-983D-357472789BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96F58DBF-BF8F-446B-983D-357472789BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96F58DBF-BF8F-446B-983D-357472789BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96F58DBF-BF8F-446B-983D-357472789BE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
