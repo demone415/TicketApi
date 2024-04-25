@@ -20,7 +20,7 @@ if (aspEnv != null)
 {
     var environmentFile =
         $"appsettings.{aspEnv}.json";
-    Console.WriteLine($"Current ENVIRONMENT: {environment}");
+    Console.WriteLine($"Current ENVIRONMENT: {aspEnv}");
     configuration.AddJsonFile(environmentFile, true, true);
 }
 
